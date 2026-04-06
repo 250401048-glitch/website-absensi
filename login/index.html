@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Admin Pramuka</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="login-container">
+
+  <!-- FORM LOGIN -->
+  <div class="login-form">
+    <img src="WhatsApp Image 2026-04-05 at 11.45.42.jpeg" class="logo" alt="Logo Pramuka">
+<style>
+  .login-form{
+    background: rgba(106, 75, 8, 0.947);
+  }
+  img{
+    border: wheat;
+    border-radius: 200px;
+  }
+</style>
+
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username Admin" required>
+      <input type="password" id="password" placeholder="Password Admin" required>
+      <button type="submit">MASUK</button>
+    </form>
+
+    <p id="error" style="color:red;"></p>
+  </div>
+
+  <!-- IMAGE -->
+  <div class="login-image">
+    
+  </div>
+
+</div>
+
+<script>
+// DATA ADMIN
+const admin = {
+  username: "admin",
+  password: "admin123",
+  nama: "Admin Pramuka"
+};
+
+// AMBIL FORM
+const form = document.getElementById('loginForm');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const userInput = document.getElementById('username').value.trim();
+  const passInput = document.getElementById('password').value;
+  const error = document.getElementById('error');
+
+  error.innerText = '';
+
+  if(userInput === admin.username && passInput === admin.password){
+    // SIMPAN DATA LOGIN
+    localStorage.setItem('login', 'true');
+    localStorage.setItem('role', 'admin');
+    localStorage.setItem('nama', admin.nama);
+
+    // PINDAH KE DASHBOARD
+    window.location.href = '../login/dashboard.html';
+  } else {
+    error.innerText = 'Username atau Password salah!';
+  }
+});
+</script>
+
+</body>
+</html>

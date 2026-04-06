@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /> 
+<title>Dashboard Absensi</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body { font-family: Arial; margin: 0; background: #d8c06e; color: black; transition: background-color 0.3s, color 0.3s; }
+body.dark-mode { background: #222; color: #ddd; }
+
+/* CONTAINER */
+.container { display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar { width: 220px; background: #573104; color: white; padding: 9px; position: relative; }
+
+/* LOGO */
+.logo-box { text-align: center; }
+.logo-box img { width: 120px; border-radius: 200px; margin-top: 10px; }
+
+/* MAIN */
+.main { flex: 1; padding: 20px; }
+
+/* CONTENT WRAPPER */
+.content { width: 100%; }
+
+/* FORM */
+.form-box { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+input, select, button { padding: 10px; flex: 1 1 100%; border-radius: 5px; border: none; }
+button { cursor: pointer; color: white; }
+.hadir-btn { background: green; }
+.tidak-btn { background: red; }
+
+/* CARD */
+.card-box { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+.card { background: orange; padding: 15px; border-radius: 10px; width: 100px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.2); color: black; }
+.card h3 { font-size: 14px; }
+.card p { font-size: 13px; }
+
+/* TABLE */
+.table-box { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { width: 100%; background: orange; border-collapse: collapse; min-width: 500px; color: black; }
+th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: center; }
+
+/* TEXT */
+h1, h2 { font-family: "Times New Roman", Times, serif; }
+h1 { color: #ae6308; text-align: center; }
+h2 { text-align: center; color: #ae6308; }
+
+/* SOSIAL */
+.sosial { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; position: relative; }
+.sosial a { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 18px; font-weight: bold; padding: 10px 15px; border-radius: 10px; color: white; }
+.sosial i { font-size: 22px; }
+
+/* WARNA KHAS SOSIAL */
+.sosial a.instagram { background: #E1306C; color: white; }
+.sosial a.tiktok { background: #010101; color: white; }
+.sosial a.whatsapp { background: #25D366; color: white; }
+.sosial a.pengumuman { background: #ff5252; color: white; }
+
+header { color: #faf9f8; margin-top: 20px; font-size: 12px; text-align: center; }
+
+/* EFEK KILAP */
+.card::before { content: ""; position: absolute; top: 0; left: -75%; width: 70%; height: 150%; background: linear-gradient(120deg, transparent, rgba(240,235,237,0.6), transparent); transform: skewX(-25deg); animation: shine 4s infinite linear; }
+@keyframes shine { 0% { left: -555%; } 100% { left: 725%; } }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .container { flex-direction: column; }
+  .sidebar { width: 100%; text-align: center; }
+  .logo-box img { width: 80px; }
+  .main { padding: 15px; }
+  .content { max-width: 420px; margin: 0 auto; }
+  .card { width: 90px; }
+  th, td { font-size: 12px; padding: 8px; }
+}
+
+
+body.dark-mode .sidebar { background: #2c1a00; color: #f0d675; }
+body.dark-mode .sosial a { background: rgba(255 255 255 / 0.1); color: #f0d675; }
+body.dark-mode h1, body.dark-mode h2 { color: #f0d675; }
+body.dark-mode table { background: #4d3908; color: #fff; }
+body.dark-mode th, body.dark-mode td { border-color: #7a6c3a; }
+body.dark-mode .card { background: #a46e00; color: #000; }
+
+
+.mode-toggle-wrapper { display: flex; justify-content: flex-start; margin-top: 15px; padding-left: 15px; }
+.switch { position: relative; display: inline-block; width: 46px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; background-color: #ccc; border-radius: 34px; top: 0; left: 0; right: 0; bottom: 0; transition: 0.4s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.4s; }
+input:checked + .slider { background-color: #2196f3; }
+input:checked + .slider:before { transform: translateX(22px); }
+.mode-toggle-label { margin-left: 10px; font-weight: 600; color: #e5b72e; user-select: none; align-self: center; }
+body.dark-mode .mode-toggle-label { color: #f0d675; }
+</style>
+</head>
+
+<body>
+<script>
+if (localStorage.getItem("login") !== "true") {
+  window.location.href = "../halaman login/index.html";
+}
+</script>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="logo-box">
+      <img src="WhatsApp Image 2026-04-05 at 11.45.42.jpeg" />
+      <h2>PRAPASTAM</h2>
+
+      <div class="sosial">
+        <a href="https://www.instagram.com/prapasttam?igsh=eTRrYnlnYno2MHpw" class="instagram"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.tiktok.com/@pramuka7tambang?_r=1&_t=ZS-95HkG3Hyzsl" class="tiktok"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://wa.me/6287735418965" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Admin</a>
+        <a href="#" id="notifPengumuman" class="pengumuman"><i class="fas fa-bell"></i> Pengumuman</a>
+
+        <div class="mode-toggle-wrapper">
+          <label class="switch">
+            <input type="checkbox" id="modeToggle" />
+            <span class="slider"></span>
+          </label>
+          <span class="mode-toggle-label">Mode Gelap</span>
+        </div>
+      </div>
+
+      <header>@prapastam.smpn07.ac.id</header>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1>DASHBOARD ABSENSI</h1>
+
+      <div class="form-box">
+        <input type="text" id="namaInput" placeholder="Masukkan Nama" />
+        <select id="kelasInput">
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+        </select>
+        <select id="pertemuanInput">
+          <option value="1">Pertemuan 1</option>
+          <option value="2">Pertemuan 2</option>
+          <option value="3">Pertemuan 3</option>
+          <option value="4">Pertemuan 4</option>
+          <option value="5">Pertemuan 5</option>
+          <option value="6">Pertemuan 6</option>
+          <option value="7">Pertemuan 7</option>
+          <option value="8">Pertemuan 8</option>
+          <option value="9">Pertemuan 9</option>
+          <option value="10">Pertemuan 10</option>
+        </select>
+        <button onclick="absen('Hadir')" class="hadir-btn">HADIR</button>
+        <button onclick="absen('Tidak Hadir')" class="tidak-btn">TIDAK HADIR</button>
+      </div>
+
+      <div class="card-box">
+        <div class="card">
+          <h3>TOTAL</h3>
+          <p id="total">0</p>
+        </div>
+        <div class="card">
+          <h3>HADIR</h3>
+          <p id="hadir">0</p>
+        </div>
+        <div class="card">
+          <h3>TIDAK HADIR</h3>
+          <p id="tidak">0</p>
+        </div>
+      </div>
+
+      <div class="table-box">
+        <h2>DATA ABSENSI</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>PERTEMUAN</th>
+              <th>NAMA</th>
+              <th>KELAS</th>
+              <th>STATUS</th>
+              <th>WAKTU</th>
+            </tr>
+          </thead>
+          <tbody id="tabel"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("absensi")) || [];
+
+// Tampilkan tabel & update kartu
+function tampilkan() {
+  const tabel = document.getElementById("tabel");
+  tabel.innerHTML = "";
+  data.sort((a,b)=>a.pertemuan-b.pertemuan);
+  data.forEach(item=>{
+    tabel.innerHTML+=`
+    <tr>
+      <td>Minggu ${item.pertemuan}</td>
+      <td>${item.nama}</td>
+      <td>${item.kelas}</td>
+      <td>${item.status}</td>
+      <td>${item.waktu}</td>
+    </tr>`;
+  });
+  updateStat();
+}
+
+// Absen siswa
+function absen(status){
+  const nama=document.getElementById("namaInput").value;
+  const kelas=document.getElementById("kelasInput").value;
+  const pertemuan=document.getElementById("pertemuanInput").value;
+  if(nama==="") return alert("Isi nama dulu!");
+  const sudah=data.find(i=>i.nama===nama && i.pertemuan===pertemuan);
+  if(sudah) return alert("Sudah absen di pertemuan ini!");
+  const waktu=new Date().toLocaleString();
+  const absenData={nama,kelas,status,waktu,pertemuan};
+  data.push(absenData);
+  localStorage.setItem("absensi",JSON.stringify(data));
+  fetch("https://script.google.com/macros/s/AKfycbz4U9SEIxSiypL9Wm74aW4B9MRd_bskAk75J1MFyM9jNs4EnRF_0tD_zZNjFd28rLN48A/exec", { method:"POST", body:JSON.stringify(absenData) });
+  tampilkan();
+  document.getElementById("namaInput").value="";
+}
+
+// Update kartu statistik
+function updateStat(){
+  document.getElementById("total").innerText=data.length;
+  document.getElementById("hadir").innerText=data.filter(i=>i.status==="Hadir").length;
+  document.getElementById("tidak").innerText=data.filter(i=>i.status==="Tidak Hadir").length;
+}
+tampilkan();
+
+// Mode gelap
+const modeToggle=document.getElementById("modeToggle");
+if(localStorage.getItem("mode")==="dark"){ document.body.classList.add("dark-mode"); modeToggle.checked=true; }
+modeToggle.addEventListener("change",()=>{
+  if(modeToggle.checked){ document.body.classList.add("dark-mode"); localStorage.setItem("mode","dark"); }
+  else { document.body.classList.remove("dark-mode"); localStorage.setItem("mode","light"); }
+});
+
+// PENGUMUMAN
+let pengumuman=JSON.parse(localStorage.getItem("pengumuman"))||[];
+const notifBtn=document.getElementById("notifPengumuman");
+
+notifBtn.addEventListener("click",()=>{
+  if(pengumuman.length===0) return alert("Belum ada pengumuman!");
+  alert("📢 Pengumuman:\n\n"+pengumuman.join("\n"));
+});
+
+function updateNotifBadge(){
+  if(pengumuman.length>0){
+    notifBtn.innerHTML=`<i class="fas fa-bell"></i> Pengumuman (${pengumuman.length})`;
+  }else{
+    notifBtn.innerHTML=`<i class="fas fa-bell"></i> Pengumuman`;
+  }
+}
+updateNotifBadge();
+
+// ===== Auto update pengumuman dari admin =====
+window.addEventListener('storageUpdate', () => {
+  pengumuman = JSON.parse(localStorage.getItem("pengumuman")) || [];
+  updateNotifBadge();
+});
+</script>
+</body>
+</html>

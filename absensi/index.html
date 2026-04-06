@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login siswa Pramuka</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <!-- FORM LOGIN -->
+    <div class="login-form">
+      <img src="WhatsApp Image 2026-04-05 at 11.45.42.jpeg" class="logo" alt="Logo Pramuka">
+      <style>
+        .login-form {
+          background: rgba(106, 75, 8, 0.947);
+        }
+
+        img {
+          border: wheat;
+          border-radius: 200px;
+        }
+      </style>
+
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="NO KTA 16 ANGKA" required>
+        <input type="password" id="password" placeholder="PASSWORD" required>
+        <button type="submit">MASUK</button>
+      </form>
+
+      <p id="error" style="color:red;"></p>
+    </div>
+
+    <!-- IMAGE -->
+    <div class="login-image">
+
+    </div>
+
+  </div>
+
+  <script>
+    // PASSWORD DEFAULT
+    const PASSWORD = "prapastam";
+
+    // AMBIL FORM
+    const form = document.getElementById('loginForm');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const kta = document.getElementById('username').value.trim();
+      const passInput = document.getElementById('password').value;
+      const error = document.getElementById('error');
+
+      error.innerText = '';
+
+      // VALIDASI KTA (HARUS 16 ANGKA)
+      const regexKTA = /^[0-9]{16}$/;
+
+      if (!regexKTA.test(kta)) {
+        error.innerText = 'Nomor KTA harus 16 digit angka!';
+        return;
+      }
+
+      // VALIDASI PASSWORD
+      if (passInput !== PASSWORD) {
+        error.innerText = 'Password salah!';
+        return;
+      }
+
+      // SIMPAN DATA LOGIN
+      localStorage.setItem('login', 'true');
+      localStorage.setItem('role', 'siswa');
+      localStorage.setItem('kta', kta);
+
+      // PINDAH KE DASHBOARD
+      window.location.href = '../siswa/dashboard.html';  // tetap pakai nama file asli
+    });
+  </script>
+
+</body>
+
+</html>

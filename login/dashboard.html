@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,666 +9,172 @@
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Merriweather', serif;
-    }
-
-    body {
-      background: #585019;
-      color: #333;
-      transition: 0.3s;
-    }
-
-    body.dark-mode {
-      background: #1e1e1e;
-      color: #eee;
-    }
-
-
-    .container {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      width: 220px;
-      background: #4b3621;
-      color: white;
-      padding: 20px 10px;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .logo-box {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .logo-box img {
-      width: 100px;
-      border-radius: 50%;
-      margin-bottom: 10px;
-      border: 2px solid #f0d675;
-    }
-
-    .sidebar h2 {
-      margin-bottom: 5px;
-      color: #f0d675;
-      font-weight: 700;
-    }
-
-    .sidebar header {
-      font-size: 13px;
-      color: #e5c07b;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-
-    .mode-toggle-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-      flex-direction: column;
-    }
-
-    .mode-toggle-label {
-      font-weight: 600;
-      color: #f0d675;
-      user-select: none;
-      margin-bottom: 10px;
-    }
-
-    .sidebar .feature-btn {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .sidebar .feature-btn.logout {
-      background: #e63946;
-      color: white;
-    }
-
-    .sidebar .feature-btn.logout:hover {
-      background: #c5303e;
-    }
-
-    .sidebar .feature-btn.resetPengumuman {
-      background: #f4a261;
-      color: white;
-    }
-
-    .sidebar .feature-btn.resetPengumuman:hover {
-      background: #e07b3b;
-    }
-
-    .sidebar .feature-btn.resetAbsensi {
-      background: #2a9d8f;
-      color: white;
-    }
-
-    .sidebar .feature-btn.resetAbsensi:hover {
-      background: #21867a;
-    }
-
-    .sidebar .feature-btn.refresh {
-      background: #264653;
-      color: white;
-    }
-
-    .sidebar .feature-btn.refresh:hover {
-      background: #1f3b46;
-    }
-
-    .main {
-      flex: 1;
-      padding: 25px;
-    }
-
-    .content {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    h1,
-    h2 {
-      text-align: center;
-      color: #c9ba44;
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
-
-    h2 {
-      margin-top: 40px;
-    }
-
-
-    input,
-    select,
-    button {
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 10px;
-      width: 100%;
-      font-size: 15px;
-    }
-
-    input,
-    select {
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    button {
-      cursor: pointer;
-      transition: 0.25s;
-      font-weight: 700;
-    }
-
-    button.green {
-      background: #2a9d8f;
-      color: white;
-    }
-
-    button.green:hover {
-      background: #21867a;
-    }
-
-    button.red {
-      background: #e63946;
-      color: white;
-    }
-
-    button.red:hover {
-      background: #c5303e;
-    }
-
-
-    .card-box {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background: linear-gradient(145deg, #9d8c7d, #f7b27c);
-      padding: 20px;
-      border-radius: 12px;
-      width: 150px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card h3 {
-      font-size: 15px;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    .card p {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 12px 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    li button {
-      background: #e63946;
-      padding: 5px 10px;
-      font-size: 13px;
-      border-radius: 5px;
-    }
-
-
-    .table-box {
-      overflow-x: auto;
-      margin-top: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 500px;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    th,
-    td {
-      padding: 12px;
-      text-align: center;
-      font-size: 15px;
-    }
-
-    th {
-      background: #264653;
-      color: white;
-      font-weight: 700;
-    }
-
-    td {
-      background: #f4a261;
-      color: #333;
-      border-bottom: 1px solid #ddd;
-    }
-
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 26px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      background-color: #ccc;
-      border-radius: 34px;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      transition: 0.4s;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background: white;
-      border-radius: 50%;
-      transition: 0.4s;
-    }
-
-    input:checked+.slider {
-      background-color: #2196f3;
-    }
-
-    input:checked+.slider:before {
-      transform: translateX(24px);
-    }
-
-
-    body.dark-mode .sidebar {
-      background: #2c2c2c;
-    }
-
-    body.dark-mode .card {
-      background: #3a3a3a;
-      color: #f5f5f5;
-    }
-
-    body.dark-mode li {
-      background: rgba(255, 255, 255, 0.05);
-      color: #ddd;
-    }
-
-    body.dark-mode th {
-      background: #1f1f1f;
-      color: #f0d675;
-    }
-
-    body.dark-mode td {
-      background: #2c2c2c;
-      color: #eee;
-      border-bottom: 1px solid #444;
-    }
-
-    /* Responsive */
-    @media (max-width:768px) {
-      .container {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-      }
-
-      .logo-box img {
-        width: 80px;
-      }
-
-      .main {
-        padding: 15px;
-      }
-
-      .content {
-        max-width: 420px;
-        margin: 0 auto;
-      }
-
-      .card {
-        width: 120px;
-      }
-
-      th,
-      td {
-        font-size: 13px;
-        padding: 8px;
-      }
-    }
+    /* Semua CSS dashboard yang kamu berikan tetap sama */
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Merriweather',serif}body{background:#585019;color:#333;transition:.3s}body.dark-mode{background:#1e1e1e;color:#eee}.container{display:flex;min-height:100vh}.sidebar{width:220px;background:#4b3621;color:white;padding:20px 10px;box-shadow:2px 0 10px rgba(0,0,0,.2);display:flex;flex-direction:column;align-items:center}.logo-box{text-align:center;margin-bottom:25px}.logo-box img{width:100px;border-radius:50%;margin-bottom:10px;border:2px solid #f0d675}.sidebar h2{margin-bottom:5px;color:#f0d675;font-weight:700}.sidebar header{font-size:13px;color:#e5c07b;margin-bottom:20px;text-align:center}.mode-toggle-wrapper{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:10px;flex-direction:column}.mode-toggle-label{font-weight:600;color:#f0d675;user-select:none;margin-bottom:10px}.sidebar .feature-btn{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s}.sidebar .feature-btn.logout{background:#e63946;color:white}.sidebar .feature-btn.logout:hover{background:#c5303e}.sidebar .feature-btn.resetPengumuman{background:#f4a261;color:white}.sidebar .feature-btn.resetPengumuman:hover{background:#e07b3b}.sidebar .feature-btn.resetAbsensi{background:#2a9d8f;color:white}.sidebar .feature-btn.resetAbsensi:hover{background:#21867a}.sidebar .feature-btn.refresh{background:#264653;color:white}.sidebar .feature-btn.refresh:hover{background:#1f3b46}.main{flex:1;padding:25px}.content{max-width:900px;margin:0 auto}h1,h2{text-align:center;color:#c9ba44;margin-bottom:20px;font-weight:700}h2{margin-top:40px}input,select,button{padding:12px;border-radius:8px;border:none;margin-bottom:10px;width:100%;font-size:15px}input,select{box-shadow:0 2px 6px rgba(0,0,0,.1)}button{cursor:pointer;transition:.25s;font-weight:700}button.green{background:#2a9d8f;color:white}button.green:hover{background:#21867a}button.red{background:#e63946;color:white}button.red:hover{background:#c5303e}.card-box{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}.card{background:linear-gradient(145deg,#9d8c7d,#f7b27c);padding:20px;border-radius:12px;width:150px;text-align:center;position:relative;box-shadow:0 8px 25px rgba(0,0,0,.15);transition:.3s}.card:hover{transform:translateY(-5px)}.card h3{font-size:15px;margin-bottom:10px;font-weight:700}.card p{font-size:18px;font-weight:700}ul{list-style:none;padding:0}li{background:rgba(255,255,255,.2);padding:12px 15px;border-radius:10px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 3px 6px rgba(0,0,0,.1)}li button{background:#e63946;padding:5px 10px;font-size:13px;border-radius:5px}.table-box{overflow-x:auto;margin-top:20px}table{width:100%;border-collapse:collapse;min-width:500px;border-radius:12px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.1)}th,td{padding:12px;text-align:center;font-size:15px}th{background:#264653;color:white;font-weight:700}td{background:#f4a261;color:#333;border-bottom:1px solid #ddd}.switch{position:relative;display:inline-block;width:50px;height:26px}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;background-color:#ccc;border-radius:34px;top:0;left:0;right:0;bottom:0;transition:.4s}.slider:before{position:absolute;content:"";height:20px;width:20px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.4s}input:checked+.slider{background-color:#2196f3}input:checked+.slider:before{transform:translateX(24px)}body.dark-mode .sidebar{background:#2c2c2c}body.dark-mode .card{background:#3a3a3a;color:#f5f5f5}body.dark-mode li{background:rgba(255,255,255,.05);color:#ddd}body.dark-mode th{background:#1f1f1f;color:#f0d675}body.dark-mode td{background:#2c2c2c;color:#eee;border-bottom:1px solid #444}@media(max-width:768px){.container{flex-direction:column}.sidebar{width:100%;text-align:center;padding:10px}.logo-box img{width:80px}.main{padding:15px}.content{max-width:420px;margin:0 auto}.card{width:120px}th,td{font-size:13px;padding:8px}}
   </style>
 </head>
-
 <body>
-  <script>
-    if (localStorage.getItem("login") !== "true") { window.location.href = "../login/index.html"; }
-  </script>
+<script>
+  if(localStorage.getItem("login") !== "true") { window.location.href="../login/index.html"; }
+</script>
 
-  <div class="container">
-    <aside class="sidebar">
-      <div class="logo-box">
-        <img src="WhatsApp Image 2026-04-05 at 11.45.42.jpeg" />
-        <h2>PRAPASTAM</h2>
-        <div class="mode-toggle-wrapper">
-          <label class="switch">
-            <input type="checkbox" id="modeToggleAdmin" />
-            <span class="slider"></span>
-          </label>
-          <span class="mode-toggle-label">Mode Gelap</span>
+<div class="container">
+  <aside class="sidebar">
+    <div class="logo-box">
+      <img src="WhatsApp Image 2026-04-05 at 11.45.42.jpeg" />
+      <h2>PRAPASTAM</h2>
+      <div class="mode-toggle-wrapper">
+        <label class="switch">
+          <input type="checkbox" id="modeToggleAdmin" />
+          <span class="slider"></span>
+        </label>
+        <span class="mode-toggle-label">Mode Gelap</span>
 
-          <!-- Extra features -->
-          <button class="feature-btn logout" onclick="logout()">Logout</button>
-          <button class="feature-btn resetPengumuman" onclick="resetPengumuman()">Reset Pengumuman</button>
-          <button class="feature-btn resetAbsensi" onclick="resetAbsensi()">Reset Absensi</button>
-          <button class="feature-btn refresh" onclick="refreshDashboard()">Refresh Dashboard</button>
-        </div>
-        <header>@prapastam.smpn07.ac.id</header>
+        <button class="feature-btn logout" onclick="logout()">Logout</button>
+        <button class="feature-btn resetPengumuman" onclick="resetPengumuman()">Reset Pengumuman</button>
+        <button class="feature-btn resetAbsensi" onclick="resetAbsensi()">Reset Absensi</button>
+        <button class="feature-btn refresh" onclick="refreshDashboard()">Refresh Dashboard</button>
       </div>
-    </aside>
+      <header>@prapastam.smpn07.ac.id</header>
+    </div>
+  </aside>
 
-    <main class="main">
-      <div class="content">
-        <h1>DASHBOARD ADMIN</h1>
+  <main class="main">
+    <div class="content">
+      <h1>DASHBOARD ADMIN</h1>
 
-        <h2>PENGUMUMAN</h2>
-        <input type="text" id="pengumumanInput" placeholder="Tulis pengumuman baru..." />
-        <button class="green" onclick="tambahPengumuman()">Tambah Pengumuman</button>
-        <ul id="daftarPengumuman"></ul>
+      <h2>PENGUMUMAN</h2>
+      <input type="text" id="pengumumanInput" placeholder="Tulis pengumuman baru..." />
+      <button class="green" onclick="tambahPengumuman()">Tambah Pengumuman</button>
+      <ul id="daftarPengumuman"></ul>
 
-        <h2>STATISTIK ABSENSI</h2>
-        <div class="card-box">
-          <div class="card">
-            <h3>Total</h3>
-            <p id="totalAdmin">0</p>
-          </div>
-          <div class="card">
-            <h3>Hadir</h3>
-            <p id="hadirAdmin">0</p>
-          </div>
-          <div class="card">
-            <h3>Tidak Hadir</h3>
-            <p id="tidakAdmin">0</p>
-          </div>
-        </div>
-
-        <h2>DATA ABSENSI</h2>
-        <div class="filter-box">
-          <select id="kelasFilter">
-            <option value="">Semua Kelas</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-          </select>
-
-          <select id="pertemuanFilter">
-           <option value="1">Pertemuan 1</option>
-          <option value="2">Pertemuan 2</option>
-          <option value="3">Pertemuan 3</option>
-          <option value="4">Pertemuan 4</option>
-          <option value="5">Pertemuan 5</option>
-          <option value="6">Pertemuan 6</option>
-          <option value="7">Pertemuan 7</option>
-          <option value="8">Pertemuan 8</option>
-          <option value="9">Pertemuan 9</option>
-          <option value="10">Pertemuan 10</option>
-          <option value="11">Pertemuan 11</option>
-          <option value="12">Pertemuan 12</option>
-          <option value="13">Pertemuan 13</option>
-          <option value="14">Pertemuan 14</option>
-          <option value="15">Pertemuan 15</option>
-          <option value="16">Pertemuan 16</option>
-          <option value="17">Pertemuan 17</option>
-          <option value="18">Pertemuan 18</option>
-          <option value="19">Pertemuan 19</option>
-          <option value="20">Pertemuan 20</option>
-          <option value="21">Pertemuan 21</option>
-          <option value="22">Pertemuan 22</option>
-          <option value="23">Pertemuan 23</option>
-          <option value="24">Pertemuan 24</option>
-          <option value="25">Pertemuan 25</option>
-          <option value="26">Pertemuan 26</option>
-          <option value="27">Pertemuan 27</option>
-          <option value="28">Pertemuan 28</option>
-          <option value="29">Pertemuan 29</option>
-          <option value="30">Pertemuan 30</option>
-          <option value="31">Pertemuan 31</option>
-          <option value="32">Pertemuan 32</option>
-          <option value="33">Pertemuan 33</option>
-          <option value="34">Pertemuan 34</option>
-          <option value="35">Pertemuan 35</option>
-          <option value="36">Pertemuan 36</option>
-          <option value="37">Pertemuan 37</option>
-          <option value="38">Pertemuan 38</option>
-          <option value="39">Pertemuan 39</option>
-          <option value="40">Pertemuan 40</option>
-          <option value="41">Pertemuan 41</option>
-          <option value="42">Pertemuan 42</option>
-          <option value="43">Pertemuan 43</option>
-          <option value="44">Pertemuan 44</option>
-          <option value="45">Pertemuan 45</option>
-          <option value="46">Pertemuan 46</option>
-          <option value="47">Pertemuan 47</option>
-          <option value="48">Pertemuan 48</option>
-          <option value="49">Pertemuan 49</option>
-          <option value="50">Pertemuan 50</option>
-          <option value="51">Pertemuan 51</option>
-          <option value="52">Pertemuan 52</option>
-          <option value="53">Pertemuan 53</option>
-          <option value="54">Pertemuan 54</option>
-          <option value="55">Pertemuan 55</option>
-          <option value="56">Pertemuan 56</option>
-          <option value="57">Pertemuan 57</option>
-          <option value="58">Pertemuan 58</option>
-          <option value="59">Pertemuan 59</option>
-          <option value="60">Pertemuan 60</option>
-          <option value="61">Pertemuan 61</option>
-          <option value="62">Pertemuan 62</option>
-          <option value="63">Pertemuan 63</option>
-          <option value="64">Pertemuan 64</option>
-          <option value="65">Pertemuan 65</option>
-          <option value="66">Pertemuan 66</option>
-          <option value="67">Pertemuan 67</option>
-          <option value="68">Pertemuan 68</option>
-          <option value="69">Pertemuan 69</option>
-          <option value="70">Pertemuan 70</option>
-          <option value="71">Pertemuan 71</option>
-          <option value="72">Pertemuan 72</option>
-          <option value="73">Pertemuan 73</option>
-          <option value="74">Pertemuan 74</option>
-          <option value="75">Pertemuan 75</option>
-          <option value="76">Pertemuan 76</option>
-          <option value="77">Pertemuan 77</option>
-          <option value="78">Pertemuan 78</option>
-          <option value="79">Pertemuan 79</option>
-          <option value="80">Pertemuan 80</option>
-          <option value="81">Pertemuan 81</option>
-          <option value="82">Pertemuan 82</option>
-          <option value="83">Pertemuan 83</option>
-          <option value="84">Pertemuan 84</option>
-          <option value="85">Pertemuan 85</option>
-          <option value="86">Pertemuan 86</option>
-          <option value="87">Pertemuan 87</option>
-          <option value="88">Pertemuan 88</option>
-          <option value="89">Pertemuan 89</option>
-          <option value="90">Pertemuan 90</option>
-          <option value="91">Pertemuan 91</option>
-          <option value="92">Pertemuan 92</option>
-          <option value="93">Pertemuan 93</option>
-          <option value="94">Pertemuan 94</option>
-          <option value="95">Pertemuan 95</option>
-          <option value="96">Pertemuan 96</option>
-          <option value="97">Pertemuan 97</option>
-          <option value="98">Pertemuan 98</option>
-          <option value="99">Pertemuan 99</option>
-          <option value="100">Pertemuan 100</option>
-          </select>
-          <button class="green" onclick="applyFilter()">Filter</button>
-          <button class="green" onclick="downloadCSV()">Download CSV</button>
-        </div>
-
-        <div class="table-box">
-          <table id="rekapTable">
-            <thead>
-              <tr>
-                <th>Pertemuan</th>
-                <th>Nama</th>
-                <th>Kelas</th>
-                <th>Status</th>
-                <th>Waktu</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
+      <h2>STATISTIK ABSENSI</h2>
+      <div class="card-box">
+        <div class="card"><h3>Total</h3><p id="totalAdmin">0</p></div>
+        <div class="card"><h3>Hadir</h3><p id="hadirAdmin">0</p></div>
+        <div class="card"><h3>Tidak Hadir</h3><p id="tidakAdmin">0</p></div>
       </div>
-    </main>
-  </div>
 
-  <script>
-    // Mode gelap
-    const modeToggleAdmin = document.getElementById("modeToggleAdmin");
-    if (localStorage.getItem("mode") === "dark") { document.body.classList.add("dark-mode"); modeToggleAdmin.checked = true; }
-    modeToggleAdmin.addEventListener("change", () => {
-      if (modeToggleAdmin.checked) { document.body.classList.add("dark-mode"); localStorage.setItem("mode", "dark"); }
-      else { document.body.classList.remove("dark-mode"); localStorage.setItem("mode", "light"); }
-    });
+      <h2>DATA ABSENSI</h2>
+      <div class="filter-box">
+        <select id="kelasFilter">
+          <option value="">Semua Kelas</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+        </select>
 
-    // Pengumuman
-    let pengumuman = JSON.parse(localStorage.getItem("pengumuman")) || [];
-    function tampilkanPengumumanAdmin() {
-      const ul = document.getElementById("daftarPengumuman");
-      ul.innerHTML = "";
-      pengumuman.forEach((p, index) => {
-        ul.innerHTML += `<li>${p}<button onclick="hapusPengumuman(${index})">x</button></li>`;
-      });
-    }
-    function tambahPengumuman() {
-      const input = document.getElementById("pengumumanInput");
-      const text = input.value.trim();
-      if (text === "") return alert("Tulis pengumuman dulu!");
-      pengumuman.push(text);
-      localStorage.setItem("pengumuman", JSON.stringify(pengumuman));
-      input.value = "";
-      tampilkanPengumumanAdmin();
-    }
-    function hapusPengumuman(index) {
-      pengumuman.splice(index, 1);
-      localStorage.setItem("pengumuman", JSON.stringify(pengumuman));
-      tampilkanPengumumanAdmin();
-    }
+        <select id="pertemuanFilter">
+          <option value="">Semua Pertemuan</option>
+          <!-- Bisa pakai loop JS untuk generate pertemuan 1-100 -->
+          <script>
+            for(let i=1;i<=100;i++){
+              document.write(`<option value="${i}">Pertemuan ${i}</option>`);
+            }
+          </script>
+        </select>
+        <button class="green" onclick="applyFilter()">Filter</button>
+        <button class="green" onclick="downloadCSV()">Download CSV</button>
+      </div>
 
-    // Absensi
-    let data = JSON.parse(localStorage.getItem("absensi")) || [];
-    function updateStatAdmin() {
-      document.getElementById("totalAdmin").innerText = data.length;
-      document.getElementById("hadirAdmin").innerText = data.filter(i => i.status === "Hadir").length;
-      document.getElementById("tidakAdmin").innerText = data.filter(i => i.status === "Tidak Hadir").length;
-    }
+      <div class="table-box">
+        <table id="rekapTable">
+          <thead>
+            <tr>
+              <th>Pertemuan</th>
+              <th>Nama</th>
+              <th>Kelas</th>
+              <th>Status</th>
+              <th>Waktu</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Mode Gelap
+  const modeToggleAdmin=document.getElementById("modeToggleAdmin");
+  if(localStorage.getItem("mode")==="dark"){document.body.classList.add("dark-mode");modeToggleAdmin.checked=true;}
+  modeToggleAdmin.addEventListener("change",()=>{
+    if(modeToggleAdmin.checked){document.body.classList.add("dark-mode");localStorage.setItem("mode","dark");}
+    else{document.body.classList.remove("dark-mode");localStorage.setItem("mode","light");}
+  });
+
+  // Pengumuman
+  let pengumuman = JSON.parse(localStorage.getItem("pengumuman"))||[];
+  function tampilkanPengumumanAdmin(){
+    const ul=document.getElementById("daftarPengumuman");
+    ul.innerHTML="";
+    pengumuman.forEach((p,index)=>{ul.innerHTML+=`<li>${p}<button onclick="hapusPengumuman(${index})">x</button></li>`;});
+  }
+  function tambahPengumuman(){
+    const input=document.getElementById("pengumumanInput");
+    const text=input.value.trim();
+    if(text==="") return alert("Tulis pengumuman dulu!");
+    pengumuman.push(text);
+    localStorage.setItem("pengumuman",JSON.stringify(pengumuman));
+    input.value="";
     tampilkanPengumumanAdmin();
-    updateStatAdmin();
+  }
+  function hapusPengumuman(index){
+    pengumuman.splice(index,1);
+    localStorage.setItem("pengumuman",JSON.stringify(pengumuman));
+    tampilkanPengumumanAdmin();
+  }
 
-    // Filter & CSV
-    function applyFilter() {
-      const kelas = document.getElementById("kelasFilter").value;
-      const pertemuan = document.getElementById("pertemuanFilter").value;
-      let filtered = data;
-      if (kelas) filtered = filtered.filter(d => d.kelas === kelas);
-      if (pertemuan) filtered = filtered.filter(d => d.pertemuan === pertemuan);
-      renderTable(filtered);
-    }
-    function renderTable(arr) {
-      const tbody = document.querySelector("#rekapTable tbody");
-      tbody.innerHTML = "";
-      arr.forEach(d => {
-        tbody.innerHTML += `<tr>
-      <td>${d.pertemuan}</td>
-      <td>${d.nama}</td>
-      <td>${d.kelas}</td>
-      <td>${d.status}</td>
-      <td>${d.waktu}</td>
-    </tr>`;
-      });
-    }
-    function downloadCSV() {
-      if (data.length === 0) return alert("Data kosong!");
-      const rows = data.map(d => [d.pertemuan, d.nama, d.kelas, d.status, d.waktu]);
-      const csvContent = "data:text/csv;charset=utf-8," + ["Pertemuan,Nama,Kelas,Status,Waktu", ...rows.map(r => r.join(","))].join("\n");
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "rekap_absensi.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-    renderTable(data);
+  // Absensi
+  let data = JSON.parse(localStorage.getItem("absensi"))||[];
+  function updateStatAdmin(){
+    document.getElementById("totalAdmin").innerText=data.length;
+    document.getElementById("hadirAdmin").innerText=data.filter(i=>i.status==="Hadir").length;
+    document.getElementById("tidakAdmin").innerText=data.filter(i=>i.status==="Tidak Hadir").length;
+  }
 
-    // Extra Features
-    function logout() { localStorage.setItem("login", "false"); window.location.href = '../login/index..html'; }
-    function resetPengumuman() { if (confirm("Yakin ingin hapus semua pengumuman?")) { pengumuman = []; localStorage.setItem("pengumuman", JSON.stringify([])); tampilkanPengumumanAdmin(); alert("Pengumuman dihapus!"); } }
-    function resetAbsensi() { if (confirm("Yakin ingin hapus semua data absensi?")) { data = []; localStorage.setItem("absensi", JSON.stringify([])); renderTable(data); updateStatAdmin(); alert("Data absensi dihapus!"); } }
-    function refreshDashboard() { tampilkanPengumumanAdmin(); updateStatAdmin(); renderTable(data); alert("Dashboard diperbarui!"); }
-  </script>
+  function renderTable(arr){
+    const tbody=document.querySelector("#rekapTable tbody");
+    tbody.innerHTML="";
+    arr.forEach(d=>{
+      tbody.innerHTML+=`<tr><td>${d.pertemuan}</td><td>${d.nama}</td><td>${d.kelas}</td><td>${d.status}</td><td>${d.waktu}</td></tr>`;
+    });
+  }
+
+  function applyFilter(){
+    const kelas=document.getElementById("kelasFilter").value;
+    const pertemuan=document.getElementById("pertemuanFilter").value;
+    let filtered=data;
+    if(kelas) filtered=filtered.filter(d=>d.kelas===kelas);
+    if(pertemuan) filtered=filtered.filter(d=>d.pertemuan===pertemuan);
+    renderTable(filtered);
+  }
+
+  function downloadCSV(){
+    if(data.length===0) return alert("Data kosong!");
+    const rows=data.map(d=>[d.pertemuan,d.nama,d.kelas,d.status,d.waktu]);
+    const csvContent="data:text/csv;charset=utf-8,"+["Pertemuan,Nama,Kelas,Status,Waktu",...rows.map(r=>r.join(","))].join("\n");
+    const encodedUri=encodeURI(csvContent);
+    const link=document.createElement("a");
+    link.setAttribute("href",encodedUri);
+    link.setAttribute("download","rekap_absensi.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // Extra Features
+  function logout(){localStorage.setItem("login","false");window.location.href='../login/index.html';}
+  function resetPengumuman(){if(confirm("Yakin ingin hapus semua pengumuman?")){pengumuman=[];localStorage.setItem("pengumuman",JSON.stringify([]));tampilkanPengumumanAdmin();alert("Pengumuman dihapus!");}}
+  function resetAbsensi(){if(confirm("Yakin ingin hapus semua data absensi?")){data=[];localStorage.setItem("absensi",JSON.stringify([]));renderTable(data);updateStatAdmin();alert("Data absensi dihapus!");}}
+  function refreshDashboard(){tampilkanPengumumanAdmin();updateStatAdmin();renderTable(data);alert("Dashboard diperbarui!");}
+
+  // Inisialisasi awal
+  tampilkanPengumumanAdmin();
+  updateStatAdmin();
+  renderTable(data);
+</script>
+
 </body>
-
 </html>

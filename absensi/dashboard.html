@@ -285,15 +285,28 @@ if (localStorage.getItem("login") !== "true") {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbz4U9SEIxSiypL9Wm74aW4B9MRd_bskAk75J1MFyM9jNs4EnRF_0tD_zZNjFd28rLN48A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwRKEpwG27ettOkqYNb2_GnkNYS2Gw5ta9ejJ1soJWEy3C6lVH6AlaSwUe8FqLCEuPafA/exec";
 
 // CEK LOGIN
 if (localStorage.getItem("login") !== "true") {
   window.location.href = "../halaman login/index.html";
 }
 
-// DATA LOKAL (OPSIONAL UNTUK TAMPILAN CEPAT)
-let data = JSON.parse(localStorage.getItem("absensi")) || [];
+// DATA GLOBAL
+let data = [];
+
+// AMBIL DATA DARI GOOGLE SHEETS
+async function ambilDataDariServer(){
+  try{
+    const res = await fetch(API_URL);
+    const hasil = await res.json();
+
+    data = hasil;
+    tampilkan();
+  }catch(err){
+    console.log("Gagal ambil data", err);
+  }
+}
 
 // TAMPILKAN DATA
 function tampilkan() {
@@ -303,7 +316,7 @@ function tampilkan() {
   data.sort((a,b)=> Number(a.pertemuan) - Number(b.pertemuan));
 
   data.forEach(item=>{
-    tabel.innerHTML+=`
+    tabel.innerHTML += `
     <tr>
       <td>Minggu ${item.pertemuan}</td>
       <td>${item.nama}</td>
@@ -316,7 +329,7 @@ function tampilkan() {
   updateStat();
 }
 
-// ABSEN (KIRIM KE SERVER)
+// ✅ ABSEN (WAKTU SUDAH DIPERBAIKI)
 async function absen(status){
   let nama = document.getElementById("namaInput").value.trim();
   let kelas = document.getElementById("kelasInput").value;
@@ -324,38 +337,44 @@ async function absen(status){
 
   if(nama === "") return alert("Isi nama dulu!");
 
-  const waktu = new Date().toLocaleString();
+  const now = new Date();
+  const waktu = now.toLocaleString("id-ID", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false
+  });
 
   const absenData = {
+    pertemuan,
     nama,
     kelas,
-    pertemuan,
     status,
     waktu
   };
 
-  // SIMPAN LOKAL (BIAR LANGSUNG MUNCUL)
-  data.push(absenData);
-  localStorage.setItem("absensi", JSON.stringify(data));
-
-  tampilkan();
-
-  // KIRIM KE GOOGLE SHEETS
   try{
     await fetch(API_URL, {
       method: "POST",
+      mode: "no-cors",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(absenData),
-      mode: "no-cors"
+      body: JSON.stringify(absenData)
     });
+
+    alert("Absen berhasil!");
+    document.getElementById("namaInput").value = "";
+
+    setTimeout(ambilDataDariServer, 1500);
+
   }catch(err){
     alert("Gagal kirim ke server!");
     console.error(err);
   }
-
-  document.getElementById("namaInput").value = "";
 }
 
 // STATISTIK
@@ -383,7 +402,7 @@ modeToggle.addEventListener("change", ()=>{
   }
 });
 
-// PENGUMUMAN (AMBIL DARI ADMIN)
+// PENGUMUMAN
 let pengumuman = JSON.parse(localStorage.getItem("pengumuman")) || [];
 const notifBtn = document.getElementById("notifPengumuman");
 
@@ -400,15 +419,17 @@ function updateNotifBadge(){
   }
 }
 
-// AUTO UPDATE DARI ADMIN
 window.addEventListener("storage", ()=>{
   pengumuman = JSON.parse(localStorage.getItem("pengumuman")) || [];
   updateNotifBadge();
 });
 
 // INIT
-tampilkan();
+ambilDataDariServer();
 updateNotifBadge();
+
+// AUTO REFRESH
+setInterval(ambilDataDariServer, 5000);
 </script>
 </body>
 </html>

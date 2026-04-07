@@ -285,13 +285,23 @@ if (localStorage.getItem("login") !== "true") {
 </div>
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbz4U9SEIxSiypL9Wm74aW4B9MRd_bskAk75J1MFyM9jNs4EnRF_0tD_zZNjFd28rLN48A/exec";
+
+// CEK LOGIN
+if (localStorage.getItem("login") !== "true") {
+  window.location.href = "../halaman login/index.html";
+}
+
+// DATA LOKAL (OPSIONAL UNTUK TAMPILAN CEPAT)
 let data = JSON.parse(localStorage.getItem("absensi")) || [];
 
-// Tampilkan tabel & update kartu
+// TAMPILKAN DATA
 function tampilkan() {
   const tabel = document.getElementById("tabel");
   tabel.innerHTML = "";
-  data.sort((a,b)=>a.pertemuan-b.pertemuan);
+
+  data.sort((a,b)=> Number(a.pertemuan) - Number(b.pertemuan));
+
   data.forEach(item=>{
     tabel.innerHTML+=`
     <tr>
@@ -302,65 +312,103 @@ function tampilkan() {
       <td>${item.waktu}</td>
     </tr>`;
   });
+
   updateStat();
 }
 
-// Absen siswa
-function absen(status){
-  const nama=document.getElementById("namaInput").value;
-  const kelas=document.getElementById("kelasInput").value;
-  const pertemuan=document.getElementById("pertemuanInput").value;
-  if(nama==="") return alert("Isi nama dulu!");
-  const sudah=data.find(i=>i.nama===nama && i.pertemuan===pertemuan);
-  if(sudah) return alert("Sudah absen di pertemuan ini!");
-  const waktu=new Date().toLocaleString();
-  const absenData={nama,kelas,status,waktu,pertemuan};
+// ABSEN (KIRIM KE SERVER)
+async function absen(status){
+  let nama = document.getElementById("namaInput").value.trim();
+  let kelas = document.getElementById("kelasInput").value;
+  let pertemuan = document.getElementById("pertemuanInput").value;
+
+  if(nama === "") return alert("Isi nama dulu!");
+
+  const waktu = new Date().toLocaleString();
+
+  const absenData = {
+    nama,
+    kelas,
+    pertemuan,
+    status,
+    waktu
+  };
+
+  // SIMPAN LOKAL (BIAR LANGSUNG MUNCUL)
   data.push(absenData);
-  localStorage.setItem("absensi",JSON.stringify(data));
-  fetch("https://script.google.com/macros/s/AKfycbz4U9SEIxSiypL9Wm74aW4B9MRd_bskAk75J1MFyM9jNs4EnRF_0tD_zZNjFd28rLN48A/exec", { method:"POST", body:JSON.stringify(absenData) });
+  localStorage.setItem("absensi", JSON.stringify(data));
+
   tampilkan();
-  document.getElementById("namaInput").value="";
+
+  // KIRIM KE GOOGLE SHEETS
+  try{
+    await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(absenData),
+      mode: "no-cors"
+    });
+  }catch(err){
+    alert("Gagal kirim ke server!");
+    console.error(err);
+  }
+
+  document.getElementById("namaInput").value = "";
 }
 
-// Update kartu statistik
+// STATISTIK
 function updateStat(){
-  document.getElementById("total").innerText=data.length;
-  document.getElementById("hadir").innerText=data.filter(i=>i.status==="Hadir").length;
-  document.getElementById("tidak").innerText=data.filter(i=>i.status==="Tidak Hadir").length;
+  document.getElementById("total").innerText = data.length;
+  document.getElementById("hadir").innerText = data.filter(i=>i.status==="Hadir").length;
+  document.getElementById("tidak").innerText = data.filter(i=>i.status==="Tidak Hadir").length;
 }
-tampilkan();
 
-// Mode gelap
-const modeToggle=document.getElementById("modeToggle");
-if(localStorage.getItem("mode")==="dark"){ document.body.classList.add("dark-mode"); modeToggle.checked=true; }
-modeToggle.addEventListener("change",()=>{
-  if(modeToggle.checked){ document.body.classList.add("dark-mode"); localStorage.setItem("mode","dark"); }
-  else { document.body.classList.remove("dark-mode"); localStorage.setItem("mode","light"); }
+// MODE GELAP
+const modeToggle = document.getElementById("modeToggle");
+
+if(localStorage.getItem("mode") === "dark"){
+  document.body.classList.add("dark-mode");
+  modeToggle.checked = true;
+}
+
+modeToggle.addEventListener("change", ()=>{
+  if(modeToggle.checked){
+    document.body.classList.add("dark-mode");
+    localStorage.setItem("mode","dark");
+  }else{
+    document.body.classList.remove("dark-mode");
+    localStorage.setItem("mode","light");
+  }
 });
 
-// PENGUMUMAN
-let pengumuman=JSON.parse(localStorage.getItem("pengumuman"))||[];
-const notifBtn=document.getElementById("notifPengumuman");
+// PENGUMUMAN (AMBIL DARI ADMIN)
+let pengumuman = JSON.parse(localStorage.getItem("pengumuman")) || [];
+const notifBtn = document.getElementById("notifPengumuman");
 
-notifBtn.addEventListener("click",()=>{
-  if(pengumuman.length===0) return alert("Belum ada pengumuman!");
-  alert("📢 Pengumuman:\n\n"+pengumuman.join("\n"));
+notifBtn.addEventListener("click", ()=>{
+  if(pengumuman.length === 0) return alert("Belum ada pengumuman!");
+  alert("📢 Pengumuman:\n\n" + pengumuman.join("\n"));
 });
 
 function updateNotifBadge(){
-  if(pengumuman.length>0){
-    notifBtn.innerHTML=`<i class="fas fa-bell"></i> Pengumuman (${pengumuman.length})`;
+  if(pengumuman.length > 0){
+    notifBtn.innerHTML = `<i class="fas fa-bell"></i> Pengumuman (${pengumuman.length})`;
   }else{
-    notifBtn.innerHTML=`<i class="fas fa-bell"></i> Pengumuman`;
+    notifBtn.innerHTML = `<i class="fas fa-bell"></i> Pengumuman`;
   }
 }
-updateNotifBadge();
 
-// ===== Auto update pengumuman dari admin =====
-window.addEventListener('storageUpdate', () => {
+// AUTO UPDATE DARI ADMIN
+window.addEventListener("storage", ()=>{
   pengumuman = JSON.parse(localStorage.getItem("pengumuman")) || [];
   updateNotifBadge();
 });
+
+// INIT
+tampilkan();
+updateNotifBadge();
 </script>
 </body>
 </html>
